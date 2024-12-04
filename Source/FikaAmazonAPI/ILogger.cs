@@ -1,19 +1,20 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace FikaAmazonAPI
 {
-    public interface ILogger
+    public interface IAmazonApiLogger
     {
         void LogDebug(string message);
         void LogInfo(string message);
     }
     
-    public class DefaultLogger : ILogger
+    public sealed class DefaultAmazonAPILogger : IAmazonApiLogger
     {
         public void LogDebug(string message)
         {
-            Console.WriteLine(message);
+            Debug.WriteLine(message);
         }
 
         public void LogInfo(string message)

@@ -181,10 +181,11 @@ namespace FikaAmazonAPI.Services
                     errorMessage = response.ErrorMessage,
                 };
 
-                Debug.WriteLine("\n\n---------------------------------------------------------\n");
+                
+                AmazonCredential.Logger.LogDebug("\n\n---------------------------------------------------------\n");
                 string msg = string.Format("Request completed, \nRequest: {0} \n\nResponse: {1}", requestToLog, responseToLog);
 
-                Debug.WriteLine(msg);
+                AmazonCredential.Logger.LogDebug(msg);
             }
         }
 
@@ -220,7 +221,7 @@ namespace FikaAmazonAPI.Services
                     if (tryCount >= AmazonCredential.MaxThrottledRetryCount)
                     {
                         if (AmazonCredential.IsDebugMode)
-                            Console.WriteLine("Throttle max try count reached");
+                            AmazonCredential.Logger.LogInfo("Throttle max try count reached");
 
                         throw;
                     }
@@ -263,7 +264,7 @@ namespace FikaAmazonAPI.Services
                             AmazonCredential.UsagePlansTimings[rateLimitType].SetRateLimit(rate);
                         }
 
-                        await AmazonCredential.UsagePlansTimings[rateLimitType].NextRate(rateLimitType);
+                        await AmazonCredential.UsagePlansTimings[rateLimitType].NextRate(rateLimitType, AmazonCredential.Logger);
                     }
                 }
             }
@@ -284,8 +285,8 @@ namespace FikaAmazonAPI.Services
             else
             {
                 if (AmazonCredential.IsDebugMode)
-                    Console.WriteLine("Amazon Api didn't respond with Okay, see exception for more details" +
-                                      response.Content);
+                    AmazonCredential.Logger.LogInfo("Amazon Api didn't respond with Okay, see exception for more details" +
+                                                    response.Content);
 
                 var errorResponse = response.Content.ConvertToErrorResponse();
                 if (errorResponse != null)

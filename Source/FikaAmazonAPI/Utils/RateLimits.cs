@@ -18,7 +18,7 @@ namespace FikaAmazonAPI.Utils
             this.RequestsSent = 0;
         }
         private int GetRatePeriodMs() { return (int)(((1 / Rate) * 1000) / 1); }
-        public async Task<RateLimits> NextRate(RateLimitType rateLimitType)
+        public async Task<RateLimits> NextRate(RateLimitType rateLimitType, IAmazonApiLogger logger = null)
         {
             if (RequestsSent < 0)
                 RequestsSent = 0;
@@ -31,7 +31,7 @@ namespace FikaAmazonAPI.Utils
             if (AmazonCredential.DebugMode)
             {
                 string output = $"[RateLimits ,{rateLimitType,15}]: {DateTime.UtcNow.ToString(),10}\t Request/Burst: {nextRequestsSentTxt}/{Burst}\t Rate: {Rate}/{ratePeriodMs}ms";
-                Console.WriteLine(output);
+                logger?.LogInfo(output);
             }
 
 

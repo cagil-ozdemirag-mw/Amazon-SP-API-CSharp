@@ -25,12 +25,21 @@ namespace FikaAmazonAPI
         public string SellerID { get; set; }
         public string ProxyAddress { get; set; }
         public static bool DebugMode { get; set; }
+
+        
+        public IAmazonApiLogger Logger { get; }
+
         public AmazonCredential()
         {
+            this.Logger = new DefaultAmazonAPILogger();
+
             CacheTokenData = new CacheTokenData();
+            this.Logger.LogInfo("AmazonCredential created");
+
         }
-        public AmazonCredential(string AccessKey, string SecretKey, string RoleArn, string ClientId, string ClientSecret, string RefreshToken, string ProxyAddress = null)
+        public AmazonCredential(string AccessKey, string SecretKey, string RoleArn, string ClientId, string ClientSecret, string RefreshToken, string ProxyAddress = null, IAmazonApiLogger logger = null)
         {
+            this.Logger = logger ?? new DefaultAmazonAPILogger();
             this.AccessKey = AccessKey;
             this.SecretKey = SecretKey;
             this.RoleArn = RoleArn;
@@ -39,6 +48,8 @@ namespace FikaAmazonAPI
             this.RefreshToken = RefreshToken;
             this.ProxyAddress = ProxyAddress;
             CacheTokenData = new CacheTokenData();
+            
+            this.Logger.LogInfo("AmazonCredential created");
         }
 
         public TokenResponse GetToken(TokenDataType tokenDataType)
