@@ -29,9 +29,9 @@ namespace FikaAmazonAPI
         
         public IAmazonApiLogger Logger { get; }
 
-        public AmazonCredential()
+        public AmazonCredential(IAmazonApiLogger logger = null)
         {
-            this.Logger = new DefaultAmazonAPILogger();
+            this.Logger = logger ?? new DefaultAmazonAPILogger();
 
             CacheTokenData = new CacheTokenData();
             this.Logger.LogInfo("AmazonCredential created");
