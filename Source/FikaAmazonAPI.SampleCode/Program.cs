@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace FikaAmazonAPI.SampleCode
 {
@@ -12,8 +13,20 @@ namespace FikaAmazonAPI.SampleCode
             .AddUserSecrets<Program>()
             .Build();
 
+            var useCustomLogger = true;
+            var wrappedLogger = default(IAmazonApiLogger);
+            if (useCustomLogger)
+            {
+                var loggerFactory = LoggerFactory.Create(builder =>
+                {
+                    builder.ClearProviders();
+                    builder.AddConsole();
+                });
+                wrappedLogger = new CustomLogger(loggerFactory.CreateLogger("FikaAmazonAPI"));
+            }
+          
 
-            AmazonConnection amazonConnection = new AmazonConnection(new AmazonCredential()
+            AmazonConnection amazonConnection = new AmazonConnection(new AmazonCredential(wrappedLogger)
             {
                 //AccessKey = config.GetSection("FikaAmazonAPI:AccessKey").Value,
                 //SecretKey = config.GetSection("FikaAmazonAPI:SecretKey").Value,
