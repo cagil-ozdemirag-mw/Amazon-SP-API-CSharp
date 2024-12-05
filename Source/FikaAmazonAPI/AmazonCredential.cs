@@ -27,19 +27,19 @@ namespace FikaAmazonAPI
         public static bool DebugMode { get; set; }
 
         
-        public IAmazonApiLogger Logger { get; }
+        public IFikaAmazonLogger Logger { get; }
 
-        public AmazonCredential(IAmazonApiLogger logger = null)
+        public AmazonCredential(IFikaAmazonLogger logger = null)
         {
-            this.Logger = logger ?? new DefaultAmazonAPILogger();
+            this.Logger = logger ?? new DefaultFikaAmazonLogger();
 
             CacheTokenData = new CacheTokenData();
             this.Logger.LogInfo("AmazonCredential created");
 
         }
-        public AmazonCredential(string AccessKey, string SecretKey, string RoleArn, string ClientId, string ClientSecret, string RefreshToken, string ProxyAddress = null, IAmazonApiLogger logger = null)
+        public AmazonCredential(string AccessKey, string SecretKey, string RoleArn, string ClientId, string ClientSecret, string RefreshToken, string ProxyAddress = null, IFikaAmazonLogger logger = null)
         {
-            this.Logger = logger ?? new DefaultAmazonAPILogger();
+            this.Logger = logger ?? new DefaultFikaAmazonLogger();
             this.AccessKey = AccessKey;
             this.SecretKey = SecretKey;
             this.RoleArn = RoleArn;

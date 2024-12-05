@@ -1,9 +1,9 @@
-﻿
+﻿using FikaAmazonAPI.Utils;
 using Microsoft.Extensions.Logging;
 
 namespace FikaAmazonAPI.SampleCode;
 
-public class CustomLogger : IAmazonApiLogger
+public class CustomLogger : IFikaAmazonLogger
 {
     private readonly ILogger _logger;
 

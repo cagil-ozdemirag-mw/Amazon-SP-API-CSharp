@@ -11,6 +11,7 @@ namespace FikaAmazonAPI
     {
         private AmazonCredential Credentials { get; set; }
 
+        public IFikaAmazonLoggerProvider LoggerProvider { get; set; } = new DefaultFikaAmazonLoggerProvider();
         public AppIntegrationsServiceV20240401 AppIntegrationsServiceV20240401 => this._AppIntegrationsServiceV20240401 ?? throw _NoCredentials;
         public OrderService Orders => this._Orders ?? throw _NoCredentials;
         public ReportService Reports => this._Reports ?? throw _NoCredentials;

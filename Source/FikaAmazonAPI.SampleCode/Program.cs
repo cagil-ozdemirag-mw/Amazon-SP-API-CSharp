@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using FikaAmazonAPI.Utils;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace FikaAmazonAPI.SampleCode
@@ -14,14 +15,15 @@ namespace FikaAmazonAPI.SampleCode
             .Build();
 
             var useCustomLogger = true;
-            var wrappedLogger = default(IAmazonApiLogger);
+            var wrappedLogger = default(IFikaAmazonLogger);
+            var loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder.ClearProviders();
+                builder.AddConsole();
+            });
             if (useCustomLogger)
             {
-                var loggerFactory = LoggerFactory.Create(builder =>
-                {
-                    builder.ClearProviders();
-                    builder.AddConsole();
-                });
+                
                 wrappedLogger = new CustomLogger(loggerFactory.CreateLogger("FikaAmazonAPI"));
             }
           
@@ -36,9 +38,12 @@ namespace FikaAmazonAPI.SampleCode
                 RefreshToken = config.GetSection("FikaAmazonAPI:RefreshToken").Value,
                 MarketPlaceID = config.GetSection("FikaAmazonAPI:MarketPlaceID").Value,
                 SellerID = config.GetSection("FikaAmazonAPI:SellerId").Value,
-                IsDebugMode = true
-            });
-
+                IsDebugMode = true,
+                
+            })
+            {
+                LoggerProvider = new CustomLoggerProvider(loggerFactory)
+            };
 
             ReportManagerSample reportManagerSample = new ReportManagerSample(amazonConnection);
             reportManagerSample.CallReport();

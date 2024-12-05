@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
-namespace FikaAmazonAPI
+namespace FikaAmazonAPI.Utils
 {
-    public interface IAmazonApiLogger
+    public interface IFikaAmazonLogger
     {
         void LogDebug(string message);
         void LogInfo(string message);
     }
     
-    public sealed class DefaultAmazonAPILogger : IAmazonApiLogger
+    public sealed class DefaultFikaAmazonLogger : IFikaAmazonLogger
     {
         public void LogDebug(string message)
         {
