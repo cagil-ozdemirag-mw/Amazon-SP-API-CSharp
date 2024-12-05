@@ -113,7 +113,7 @@ namespace FikaAmazonAPI
 
             this.Credentials = Credentials;
 
-            this._Authorization = new AuthorizationService(this.Credentials);
+            this._Authorization = new AuthorizationService(this.Credentials, this.LoggerProvider.CreateLogger(nameof(AuthorizationService)));
             this._AppIntegrationsServiceV20240401 = new AppIntegrationsServiceV20240401(this.Credentials);
             this._Orders = new OrderService(this.Credentials);
             this._Reports = new ReportService(this.Credentials);

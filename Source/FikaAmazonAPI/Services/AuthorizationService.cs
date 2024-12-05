@@ -3,6 +3,7 @@ using FikaAmazonAPI.AmazonSpApiSDK.Models.Token;
 using FikaAmazonAPI.Parameter.Authorization;
 using System.Threading;
 using System.Threading.Tasks;
+using FikaAmazonAPI.Utils;
 using static FikaAmazonAPI.AmazonSpApiSDK.Models.Token.CacheTokenData;
 
 namespace FikaAmazonAPI.Services
@@ -12,6 +13,10 @@ namespace FikaAmazonAPI.Services
         public AuthorizationService(AmazonCredential amazonCredential) : base(amazonCredential)
         {
         }
+        internal AuthorizationService(AmazonCredential amazonCredential, IFikaAmazonLogger logger) : base(amazonCredential)
+        {
+        }
+        
         public string GetAuthorizationCode(ParameterAuthorizationCode parameterGetOrderMetrics) =>
             Task.Run(() => GetAuthorizationCodeAsync(parameterGetOrderMetrics)).ConfigureAwait(false).GetAwaiter().GetResult();
 
